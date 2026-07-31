@@ -97,7 +97,45 @@ const getAllFiles = async (req, res) => {
   }
 };
 
+const getFileById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const query = `
+      SELECT id,
+             filename,
+             language,
+             content,
+             created_at
+      FROM files
+      WHERE id = $1;
+    `;
+
+    const result = await pool.query(query, [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "File not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      file: result.rows[0],
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch file.",
+    });
+  }
+};
+
 module.exports = {
   uploadFile,
   getAllFiles,
+  getFileById,
 };
