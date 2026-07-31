@@ -20,10 +20,29 @@ function Workspace() {
     fetchFiles();
   }, []);
 
-  const handleFileSelect = (event) => {
-    console.log(event.target.files[0]);
-  };
+  const handleFileSelect = async (event) => {
+    const selectedFile = event.target.files[0];
 
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      await api.post("/files/upload", formData);
+
+      // Refresh file list
+      fetchFiles();
+
+      // Allow uploading the same file again
+      event.target.value = "";
+
+      alert("File uploaded successfully!");
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Upload failed");
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-5xl p-8">

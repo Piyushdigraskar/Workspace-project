@@ -1,9 +1,9 @@
 function UploadButton({ onFileSelect }) {
   return (
-    <div>
+    <>
       <label
         htmlFor="file-upload"
-        className="inline-block cursor-pointer rounded-lg bg-blue-600 px-5 py-2.5 text-white font-medium hover:bg-blue-700 transition"
+        className="inline-block cursor-pointer rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
       >
         Upload File
       </label>
@@ -14,7 +14,7 @@ function UploadButton({ onFileSelect }) {
         className="hidden"
         onChange={onFileSelect}
       />
-    </div>
+    </>
   );
 }
 
