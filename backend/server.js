@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const pool = require("./config/db");
+const fileRoutes = require("./routes/fileRoutes");
 
 dotenv.config();
 
@@ -9,6 +10,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/files", fileRoutes);
 
 const PORT = process.env.PORT || 5000;
 
