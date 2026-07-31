@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import CreateFileModal from "../components/CreateFileModal";
+import DeleteFileModal from "../components/DeleteFileModal";
 import UploadButton from "../components/UploadButton";
 import FileList from "../components/FileList";
 
 function Workspace() {
   const [files, setFiles] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const fetchFiles = async () => {
     try {
       const response = await api.get("/files");
@@ -59,6 +63,22 @@ function Workspace() {
     }
   };
 
+  const handleDeleteFile = async () => {
+    try {
+      await api.delete(`/files/${selectedFile.id}`);
+
+      fetchFiles();
+
+      setShowDeleteModal(false);
+      setSelectedFile(null);
+
+      alert("File deleted successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete file.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-5xl p-8">
@@ -77,12 +97,27 @@ function Workspace() {
 
         <h2 className="mb-4 text-2xl font-semibold">Uploaded Files</h2>
 
-        <FileList files={files} />
+        <FileList
+          files={files}
+          onDelete={(file) => {
+            setSelectedFile(file);
+            setShowDeleteModal(true);
+          }}
+        />
       </div>
       <CreateFileModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         onCreate={handleCreateFile}
+      />
+      <DeleteFileModal
+        isOpen={showDeleteModal}
+        filename={selectedFile?.filename}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setSelectedFile(null);
+        }}
+        onDelete={handleDeleteFile}
       />
     </div>
   );
