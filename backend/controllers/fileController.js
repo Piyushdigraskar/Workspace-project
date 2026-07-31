@@ -69,6 +69,35 @@ const uploadFile = async (req, res) => {
   }
 };
 
+const getAllFiles = async (req, res) => {
+  try {
+    const query = `
+            SELECT id,
+                   filename,
+                   language,
+                   created_at
+            FROM files
+            ORDER BY created_at DESC;
+        `;
+
+    const result = await pool.query(query);
+
+    return res.status(200).json({
+      success: true,
+      count: result.rows.length,
+      files: result.rows,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch files.",
+    });
+  }
+};
+
 module.exports = {
   uploadFile,
+  getAllFiles,
 };
