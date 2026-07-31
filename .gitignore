@@ -1,0 +1,17 @@
+# Node
+**/node_modules
+
+# Environment files
+**/.env
+
+# Logs
+*.log
+
+# Uploaded files
+backend/uploads
+
+# VS Code
+.vscode
+
+# macOS
+.DS_Store
