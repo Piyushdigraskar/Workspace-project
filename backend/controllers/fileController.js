@@ -134,8 +134,63 @@ const getFileById = async (req, res) => {
   }
 };
 
+const createFile = async (req, res) => {
+  try {
+    const { filename } = req.body;
+
+    if (!filename) {
+      return res.status(400).json({
+        success: false,
+        message: "Filename is required.",
+      });
+    }
+
+    const extension = path.extname(filename).toLowerCase();
+    const language = allowedExtensions[extension];
+
+    if (!language) {
+      return res.status(400).json({
+        success: false,
+        message: "Unsupported file type.",
+      });
+    }
+
+    const existing = await pool.query(
+      "SELECT id FROM files WHERE filename = $1",
+      [filename],
+    );
+
+    if (existing.rows.length > 0) {
+      return res.status(409).json({
+        success: false,
+        message: "File already exists.",
+      });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO files(filename, language, content)
+       VALUES($1,$2,$3)
+       RETURNING *`,
+      [filename, language, ""],
+    );
+
+    return res.status(201).json({
+      success: true,
+      file: result.rows[0],
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create file.",
+    });
+  }
+};
+
 module.exports = {
   uploadFile,
   getAllFiles,
   getFileById,
+  createFile,
 };

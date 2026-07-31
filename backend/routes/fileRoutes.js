@@ -7,9 +7,12 @@ const {
   uploadFile,
   getAllFiles,
   getFileById,
+  createFile,
 } = require("../controllers/fileController");
 
 router.get("/", getAllFiles);
+
+router.post("/create", createFile);
 
 router.get("/:id", getFileById);
 
