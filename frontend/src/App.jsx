@@ -6,7 +6,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Workspace />} />
+        <Route path="/workspace" element={<Workspace />} />
         <Route path="/file/:id" element={<FileViewer />} />
       </Routes>
     </BrowserRouter>

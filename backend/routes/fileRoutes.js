@@ -11,7 +11,7 @@ const {
   deleteFile,
 } = require("../controllers/fileController");
 
-router.get("/", getAllFiles);
+router.get("/workspace", getAllFiles);
 
 router.get("/:id", getFileById);
 

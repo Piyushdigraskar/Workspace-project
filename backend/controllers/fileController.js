@@ -3,22 +3,12 @@ const path = require("path");
 
 const allowedExtensions = {
   ".js": "javascript",
-  ".jsx": "javascript",
   ".ts": "typescript",
-  ".tsx": "typescript",
   ".java": "java",
   ".py": "python",
   ".cpp": "cpp",
   ".c": "c",
   ".cs": "csharp",
-  ".php": "php",
-  ".html": "html",
-  ".css": "css",
-  ".json": "json",
-  ".xml": "xml",
-  ".sql": "sql",
-  ".md": "markdown",
-  ".txt": "text",
 };
 
 const uploadFile = async (req, res) => {
