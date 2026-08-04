@@ -13,7 +13,7 @@ function FileViewer() {
 
   const fetchFile = async () => {
     try {
-      const response = await api.get(`/files/${id}`);
+      const response = await api.get(`/${id}`);
       setFile(response.data.file);
     } catch (error) {
       console.error(error);

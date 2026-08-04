@@ -13,7 +13,7 @@ function Workspace() {
 
   const fetchFiles = async () => {
     try {
-      const response = await api.get("/files");
+      const response = await api.get("/");
       setFiles(response.data.files);
     } catch (error) {
       console.error(error);
@@ -33,7 +33,7 @@ function Workspace() {
     formData.append("file", selectedFile);
 
     try {
-      await api.post("/files/upload", formData);
+      await api.post("/upload", formData);
 
       // Refresh file list
       fetchFiles();
@@ -50,7 +50,7 @@ function Workspace() {
 
   const handleCreateFile = async (filename) => {
     try {
-      await api.post("/files/create", {
+      await api.post("/create", {
         filename,
       });
 
@@ -65,7 +65,7 @@ function Workspace() {
 
   const handleDeleteFile = async () => {
     try {
-      await api.delete(`/files/${selectedFile.id}`);
+      await api.delete(`/${selectedFile.id}`);
 
       fetchFiles();
 
