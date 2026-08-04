@@ -23,6 +23,7 @@ function FileList({ files, onDelete }) {
           key={file.id}
           file={file}
           onClick={() => navigate(`/file/${file.id}`)}
+          onEdit={() => navigate("/editor")}
           onDelete={() => onDelete(file)}
         />
       ))}
